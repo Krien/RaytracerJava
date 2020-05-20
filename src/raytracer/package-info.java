@@ -1,0 +1,8 @@
+/**
+ * 
+ */
+/**
+ * @author Dikkemeijer
+ *
+ */
+package raytracer;
