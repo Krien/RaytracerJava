@@ -16,6 +16,7 @@ public class Camera {
 	private final float fov = 90;
 	private float screenDistance;
 	private final float screenDimension = 1;
+	private float speed = 0.3f;
 	
 	public Vector3d getTopLeft()
 	{
@@ -61,6 +62,16 @@ public class Camera {
 		screenDistance = 1/(float)Math.tan( (fov*Math.PI/180) / 2);
 		rotateTowards(new Vector2d(0,0));
 		angle = new Vector2d(getAngleFromDirection(direction));
+	}
+	
+	public void Move(Vector3d moveDir)
+	{
+		if (moveDir.x!=0)
+			position = position.sub(right.mult(moveDir.x*speed));
+		if (moveDir.y!=0)
+			position = position.add(up.mult(moveDir.y*speed));
+		if (moveDir.z!=0)
+			position = position.add(direction.mult(moveDir.z*speed));
 	}
 	
 	// Reset camera to face forward

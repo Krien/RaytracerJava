@@ -1,5 +1,6 @@
 package raytracer;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,16 +21,16 @@ public class Window {
 		return height;
 	}
 	
-	public Window(int width, int height)
+	public Window(int width, int height, Controller c)
 	{
 		assert width > 0;
 		assert height > 0;
 		this.width = width;
 		this.height = height;
-		setupWindow();
+		setupWindow(c);
 	}
 	
-	private void setupWindow()
+	private void setupWindow(Controller c)
 	{
 		contentPane = new JPanel();
 		frame= new JFrame("Raytracer");
@@ -39,14 +40,16 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		g = contentPane.getGraphics();
+		frame.addKeyListener(c);
 	}
 	
-	public void drawScreen(Screen s)
+	public void drawScreen(Screen s, int iteration)
 	{
-		g.drawString("Raytracer 1.0", 10, 10);
 		if (g.drawImage(s.getCanvas(), s.getX(), s.getY(), s.getCanvas().getWidth(),s.getCanvas().getHeight(),null))
 		{
 		}
-		g.dispose();
+		g.setColor(Color.RED);
+		g.drawString("Raytracer 1.0, Iteration: " + iteration, 10, 10);
+		g.drawString("RecursionDepth: " + Utils.recursionDepth , 10, 25);
 	}
 }

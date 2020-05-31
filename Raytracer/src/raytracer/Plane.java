@@ -1,5 +1,7 @@
 package raytracer;
-import VectorD.Vector3d;
+import java.awt.image.BufferedImage;
+
+import VectorD.*;
 
 public class Plane extends Shape {
 	Vector3d normal;
@@ -18,6 +20,14 @@ public class Plane extends Shape {
 	public Plane(Vector3d normal,float distance, Material mat)
 	{
 		super(Vector3d.Zero(),mat);
+        this.distance = distance;
+        this.normal = new Vector3d(normal);
+        init();
+	}
+	
+	public Plane(Vector3d normal,float distance, Material mat, BufferedImage texture2d)
+	{
+		super(Vector3d.Zero(),mat,texture2d);
         this.distance = distance;
         this.normal = new Vector3d(normal);
         init();
@@ -50,9 +60,15 @@ public class Plane extends Shape {
         if (t >= 0)
         {
         	Vector3d hitPos = origin.add(direction.mult(t));
-            return new CollisionInfo(hitPos, t, normal.neg(), mat);
+            return new CollisionInfo(hitPos, t, normal.neg());
         }
         return null;
+	}
+
+	@Override
+	public Vector3d GetColor(Vector3d position, Vector3d normal) {
+		Vector2d uv = new Vector2d(Vector3d.dot(position, uDirection), Vector3d.dot(position, vDirection));
+		return texture2d.GetUV(mat.diffuseColor, uv);
 	}
 
 }
